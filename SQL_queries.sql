@@ -160,7 +160,7 @@ ORDER BY total_fees DESC;
 
 SELECT * FROM students;
 SELECT * FROM teachers;
-
+. 
 -------------------------------------------------------------------
 -- joins
 --inner join for students department count for mathematics 
@@ -171,12 +171,12 @@ WHERE t.dept = 'Mathematics'
 GROUP BY t.name, t.dept;
 
 --left join 
-SELECT t.name, t.dept, COUNT(s.id) AS total_students
+SELECT t.name as teacher_name, s.name as student_name, s.dob
 FROM teachers t
 LEFT JOIN students s ON t.id = s.teacher_id 
-AND EXTRACT(YEAR FROM s.dob) = 2011
-GROUP BY t.name, t.dept
-HAVING COUNT(s.id) >= 1;
+AND s.dob > '2010-01-01'
+ORDER BY s.dob;
+
 
 --right join
 -- show all teacher without student
@@ -258,3 +258,20 @@ SELECT
     enrollment_fee,
     CEIL(enrollment_fee) AS fee_ceiling
 FROM students;
+
+
+--multiple aggreate for single select
+
+SELECT dept, COUNT(*) AS total_teachers,SUM(salary) AS total_salary
+FROM teachers
+GROUP BY dept;
+
+
+SELECT t.dept, EXTRACT(YEAR FROM s.dob) AS birth_year, COUNT(s.id) AS total_students
+FROM teachers t
+LEFT JOIN students s  ON t.id = s.teacher_id
+-- WHERE dob >= '2010-02-21'
+GROUP BY t.dept, birth_year
+ORDER BY t.dept;
+
+
