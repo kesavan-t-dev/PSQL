@@ -73,7 +73,7 @@ GO
 ----------------------------------------------
 --# MAX
 --for student high score single person
-SELECT 
+SELECT
 	MAX(score) as high_score
 FROM students
 
@@ -113,25 +113,8 @@ GROUP BY dept
 ORDER BY min_salary ASC;
 
 
--- SELECT 
--- 	name, salary
--- FROM teachers
--- WHERE salary = (SELECT MIN(salary) FROM teachers);
-
--- SELECT name, score
--- FROM students
--- WHERE score = (SELECT MIN(score) FROM students);
-
 ----------------------------------------------------------------------
 --# AVG
---avg salary for all
--- SELECT 
--- 	AVG(salary) 
--- FROM teachers;
--- avg salary for teachers for all
-SELECT 
-    ROUND(AVG(salary), 2) AS avg_teacher_salary
-FROM teachers;
 
 -- based on teacher avg score for students
 SELECT 
@@ -141,11 +124,6 @@ FROM students s
 INNER JOIN teachers t ON s.teacher_id = t.id
 GROUP BY t.name
 ORDER BY avg_score DESC;
-
--- avg enrollment_fee for students for all
-SELECT
-	ROUND(AVG(enrollment_fee), 2) AS avg_enrollment_fee
-FROM students;
 
 -- avg score in students table based on department in teachers table
 SELECT 
@@ -158,10 +136,11 @@ ORDER BY avg_score DESC;
 
 --#sum
 -- for teachers
-SELECT 
-    SUM(salary) AS total_teacher_salary
-FROM teachers;
+-- SELECT 
+--     SUM(salary) AS total_teacher_salary
+-- FROM teachers;
 -- total salary for dept 
+
 SELECT 
     dept,
     SUM(salary) AS total_salary
@@ -169,10 +148,6 @@ FROM teachers
 GROUP BY dept
 ORDER BY total_salary DESC;
 
---for students
-SELECT 
-    SUM(enrollment_fee) AS total_fees_collected
-FROM students;
 
 -- total fee for teachers based on student
 SELECT 
@@ -186,36 +161,36 @@ ORDER BY total_fees DESC;
 SELECT * FROM students;
 SELECT * FROM teachers;
 
+-------------------------------------------------------------------
 -- joins
---inner join for students and department count 
-SELECT t.name, t.dept, COUNT(s.id) AS total_students
+--inner join for students department count for mathematics 
+SELECT t.name,t.dept, COUNT(s.id) AS total_students
 FROM teachers t
 INNER JOIN students s ON t.id = s.teacher_id
+WHERE t.dept = 'Mathematics' 
 GROUP BY t.name, t.dept;
 
---left join
-
+--left join 
 SELECT t.name, t.dept, COUNT(s.id) AS total_students
 FROM teachers t
-LEFT JOIN students s ON t.id = s.teacher_id
-GROUP BY t.name, t.dept;
+LEFT JOIN students s ON t.id = s.teacher_id 
+AND EXTRACT(YEAR FROM s.dob) = 2011
+GROUP BY t.name, t.dept
+HAVING COUNT(s.id) >= 1;
 
---right outer join
--- SELECT 
--- 	s.name, t.name as teacher_name, s.enrollment_fee
--- FROM students s
--- RIGHT OUTER JOIN teachers t
--- ON s.teacher_id = t.id;
-
+--right join
 -- show all teacher without student
-SELECT s.name, s.score, t.name AS teacher_name
-FROM students s
-RIGHT JOIN teachers t ON s.teacher_id = t.id;
+SELECT s.name AS student_name, t.name AS teacher_name
+FROM students s 
+RIGHT JOIN teachers t ON s.teacher_id = t.id
+WHERE s.name IS NULL;  
 
 -- full outer join
 SELECT t.name AS teacher_name, s.name AS student_name
 FROM teachers t
-FULL OUTER JOIN students s ON t.id = s.teacher_id;
+FULL OUTER JOIN students s ON t.id = s.teacher_id
+WHERE t.name LIKE '%s' 
+AND t.dept IN ('Mathematics', 'Computer Science');
 
 --where
 SELECT *
