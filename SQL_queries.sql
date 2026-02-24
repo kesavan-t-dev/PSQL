@@ -77,9 +77,7 @@ SELECT
 	MAX(score) as high_score
 FROM students
 
--- SELECT name, score
--- FROM students
--- WHERE score = (SELECT MAX(score) FROM students);
+
 -- for teacher max salary grp and single person max salary
 SELECT 
 	MAX(salary) as high_salary
@@ -110,7 +108,7 @@ SELECT
     MIN(salary) AS min_salary
 FROM teachers
 GROUP BY dept
-ORDER BY min_salary ASC;
+ORDER BY min_salary ASC; 
 
 
 ----------------------------------------------------------------------
