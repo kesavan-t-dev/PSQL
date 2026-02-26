@@ -26,6 +26,14 @@ CREATE TABLE students (
 );
 
 
+CREATE TABLE library (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    stud_id UUID REFERENCES students(id) ON DELETE CASCADE,
+    book_title VARCHAR(200),
+    borrow_date DATE,
+    return_date DATE
+);
+
 
 
 Select * from teachers;
@@ -58,6 +66,18 @@ INSERT INTO students (name, score, teacher_id, dob, enrollment_fee) VALUES
 ('Benjamin Hall', 78.0, 'b4d8b495-a244-452d-9f6d-364328a6b634', '2010-06-25', 1480),
 ('Mia Allen', 84.0, 'c027601b-0db7-4119-b7c8-8a11e8b31e0f', '2011-04-09', 1420);
 
+
+INSERT INTO library (stud_id, book_title, borrow_date, return_date) VALUES
+('f1aaf4a8-7d3f-4d57-8b97-6bef0644a403', 'Introduction to Mathematics', '2023-01-10', '2023-01-20'),
+('33333333-3333-3333-3333-333333333333', 'Physics for Beginners', '2023-02-15', '2023-02-25'),
+('3e991d73-f436-4170-9a32-088e1c008185', 'Computer Science 101', '2023-03-05', '2023-03-15'),
+('5a24ea93-6263-47c5-b58f-dab68d3d1124', 'Advanced Mathematics', '2023-04-01', '2023-04-10'),
+('8c78d2c6-d088-4857-8036-4f6a6402af7d', 'Physics Experiments', '2023-05-20', '2023-05-30'),
+('2c4079a9-d382-4e96-9f12-c21f49134726', 'Computer Science Projects', '2023-06-10', '2023-06-20'),
+('4c742ffb-ae0c-4220-b322-b5591f23f798', 'Mathematics in Real Life', '2023-07-01', '2023-07-10'),
+('1a972595-1722-4097-80b3-e58a056ecfaa', 'Physics Simulations', '2023-08-15', '2023-08-25'),
+('b4d8b495-a244-452d-9f6d-364328a6b634', 'Computer Science Algorithms', '2023-09-05', '2023-09-15'),
+('c027601b-0db7-4119-b7c8-8a11e8b31e0f', 'Mathematics Puzzles', '2023-10-01', '2023-10-10');
 
 --# SQL functions Aggregate
 --# count
